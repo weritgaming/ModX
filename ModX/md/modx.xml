@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mdscript name="ModX" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="D:/x4_extract_2.5/libraries/md.xsd">
+    <cues>
+        <cue name="CreateRoom">
+            <conditions>
+                <check_any>
+                    <event_game_loaded/>
+                    <event_game_started/>
+                </check_any>
+            </conditions>
+            <actions>
+
+                <create_cue_actor name="$Mission_Contact" cue="namespace" group="teladi.factionrepresentative">
+                    <page exact="10101"/>
+                    <owner exact="faction.teladi"/>
+                    <skills>
+                        <skill type="management" min="12" max="15"/>
+                        <skill type="morale" min="12" max="15"/>
+                        <skill type="piloting" min="6" max="15"/>
+                        <skill type="engineering" min="6" max="15"/>
+                        <skill type="boarding" min="6" max="15"/>
+                    </skills>
+                </create_cue_actor>
+                <set_entity_traits entity="$Mission_Contact" missionactor="true" customhandler="true"/>
+
+                <set_value name="$FactionHeadquarters" exact="faction.teladi.representative.station" />
+                <set_value name="$Race" exact="$FactionHeadquarters.owner.primaryrace" />
+                <get_room_definition macro="$CorridorMacro" race="$Race" tags="tag.corridor" />
+                <get_room_definition macro="$RoomMacro" doors="$RoomDoors" tags="tag.office" />
+
+                <create_dynamic_interior object="$FactionHeadquarters" corridor="$CorridorMacro" room="$RoomMacro" interiorname="$Interior" corridorname="$Corridor" roomname="$Room" name="{86751343,1000}" roomtype="roomtype.office" seed="$FactionHeadquarters.seed" />
+                <find_npc_slot name="$RoomSlot" object="$Room" />
+                <do_if value="$RoomSlot">
+                    <debug_text text="'We have found a room slot on which to place the mission giver'" />
+                    <add_actor_to_room actor="$Mission_Contact" slot="$RoomSlot" />
+                </do_if>
+            </actions>
+            <cues>
+                <cue name="StartConversation" instantiate="true">
+                    <conditions>
+                        <check_any>
+                            <event_conversation_started actor="$Mission_Contact" />
+                            <event_conversation_returned_to_section section="default" />
+                        </check_any>
+                    </conditions>
+                    <actions>
+
+                        <add_player_choice_sub text="'Hi'" tooltip="'Hi'" section="Open_From_Convo" choiceparam="event.object" />
+                    </actions>
+                </cue>
+
+                <cue name="Open_From_Convo" instantiate="true">
+                    <conditions>
+                        <event_conversation_next_section section="Open_From_Convo" />
+                    </conditions>
+                    <actions>
+
+                    </actions>
+                </cue>
+            </cues>
+        </cue>
+
+    </cues>
+</mdscript>
