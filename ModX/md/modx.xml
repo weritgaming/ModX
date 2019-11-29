@@ -12,7 +12,7 @@
             <actions>
 
                 <create_cue_actor name="$Mission_Contact" cue="namespace" group="teladi.factionrepresentative">
-                    <page exact="10101"/>
+                    <page exact="86751343"/>
                     <owner exact="faction.teladi"/>
                     <skills>
                         <skill type="management" min="12" max="15"/>
@@ -45,17 +45,20 @@
                         </check_any>
                     </conditions>
                     <actions>
-
-                        <add_player_choice_sub text="'Hi'" tooltip="'Hi'" section="Open_From_Convo" choiceparam="event.object" />
+                        <add_npc_line line="1001" hidechoices="true" comment="Step1 Text."/>
+                        <add_player_choice_sub text="'Step1'" tooltip="'Hi'" section="step1" choiceparam="event.object" baseparam="event.param2"/>
                     </actions>
                 </cue>
 
                 <cue name="Open_From_Convo" instantiate="true">
                     <conditions>
-                        <event_conversation_next_section section="Open_From_Convo" />
+                        <event_conversation_next_section actor="$Mission_Contact" />
                     </conditions>
                     <actions>
-
+                        <do_if value="event.param == 'step1'">
+                            <add_npc_line line="1002" hidechoices="true" comment="Step2 Text."/>
+                            <add_player_choice_sub text="'Step2'" tooltip="'Hi'" section="step2" choiceparam="event.object" baseparam="event.param2"/>
+                        </do_if>
                     </actions>
                 </cue>
             </cues>

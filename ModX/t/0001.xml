@@ -3,6 +3,8 @@
 
 <page id="86751343" title="ModX Text" descr="Text for ModX" voice="no">
  <t id="1000">ModX Room</t>
+ <t id="1001">This is the initial greeting text.</t>
+ <t id="1002">This is the text for the seond stage of the conversation.</t>
 </page>
 
 </language>
