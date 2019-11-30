@@ -6,7 +6,7 @@
             <conditions>
                 <check_any>
                     <event_game_loaded/>
-                    <event_game_started/>
+                    <event_cue_signalled cue="md.Setup.GameStart"/>
                 </check_any>
             </conditions>
             <actions>
@@ -46,7 +46,7 @@
                     </conditions>
                     <actions>
                         <add_npc_line line="1001" hidechoices="true" comment="Step1 Text."/>
-                        <add_player_choice_sub text="'Step1'" tooltip="'Hi'" section="step1" choiceparam="event.object" baseparam="event.param2"/>
+                        <add_player_choice_sub text="'Step 1'" tooltip="'Hi'" section="step1" choiceparam="event.object" baseparam="event.param2"/>
                     </actions>
                 </cue>
 
@@ -56,9 +56,20 @@
                     </conditions>
                     <actions>
                         <do_if value="event.param == 'step1'">
-                            <add_npc_line line="1002" hidechoices="true" comment="Step2 Text."/>
+                            <add_npc_line line="1002" hidechoices="true" comment="Step1 Text."/>
                             <add_player_choice_sub text="'Step2'" tooltip="'Hi'" section="step2" choiceparam="event.object" baseparam="event.param2"/>
                         </do_if>
+                        <do_if value="event.param == 'step2'">
+                            <add_npc_line line="1003" hidechoices="true" comment="Step2 Text."/>
+                            <add_player_choice_sub text="'Accept'" tooltip="'Accept Mission'" section="accept" choiceparam="event.object" baseparam="event.param2"/>
+                            <add_player_choice_sub text="'No, thanks.'" tooltip="'Reject Mission'" section="reject" choiceparam="event.object" baseparam="event.param2"/>
+                        </do_if>
+                        <do_if value="event.param == 'accept'">
+                            <add_npc_line line="1004" hidechoices="true" comment="Accept Text."/> 
+                        </do_if>
+                        <do_if value="event.param == 'reject'">
+                            <add_npc_line line="1005" hidechoices="true" comment="Reject Text."/>      
+                        </do_if>                        
                     </actions>
                 </cue>
             </cues>

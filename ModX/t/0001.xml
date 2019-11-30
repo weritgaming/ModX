@@ -4,7 +4,10 @@
 <page id="86751343" title="ModX Text" descr="Text for ModX" voice="no">
  <t id="1000">ModX Room</t>
  <t id="1001">This is the initial greeting text.</t>
- <t id="1002">This is the text for the seond stage of the conversation.</t>
+ <t id="1002">This is the text for the second stage of the conversation.</t>
+ <t id="1003">Some more information.</t>
+ <t id="1004">Wonderful! This will be a most profitable endeavor.</t>
+ <t id="1005">That's a pity, let us know if you change your mind.</t>
 </page>
 
 </language>
