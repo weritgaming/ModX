@@ -55,21 +55,45 @@
                         <event_conversation_next_section actor="$Mission_Contact" />
                     </conditions>
                     <actions>
+                        <set_value name="$MissionIntroCue" exact="this"/>
                         <do_if value="event.param == 'step1'">
                             <add_npc_line line="1002" hidechoices="true" comment="Step1 Text."/>
                             <add_player_choice_sub text="'Step2'" tooltip="'Hi'" section="step2" choiceparam="event.object" baseparam="event.param2"/>
                         </do_if>
                         <do_if value="event.param == 'step2'">
-                            <add_npc_line line="1003" hidechoices="true" comment="Step2 Text."/>
-                            <add_player_choice_sub text="'Accept'" tooltip="'Accept Mission'" section="accept" choiceparam="event.object" baseparam="event.param2"/>
-                            <add_player_choice_sub text="'No, thanks.'" tooltip="'Reject Mission'" section="reject" choiceparam="event.object" baseparam="event.param2"/>
+                            <do_if value="not $MissionIntroCue.hasmission">
+                                <add_npc_line line="1003" hidechoices="true" comment="Step2 Text."/>
+                                <add_player_choice_sub text="'Accept'" tooltip="'Accept Mission'" section="accept" choiceparam="event.object" baseparam="event.param2"/>
+                                <add_player_choice_sub text="'No, thanks.'" tooltip="'Reject Mission'" section="reject" choiceparam="event.object" baseparam="event.param2"/>
+                            </do_if>
+                            <do_else>
+                                <add_npc_line line="1006" hidechoices="true" comment="Already have mission Text."/>
+                            </do_else>
                         </do_if>
                         <do_if value="event.param == 'accept'">
-                            <add_npc_line line="1004" hidechoices="true" comment="Accept Text."/> 
+                            <add_npc_line line="1004" hidechoices="true" comment="Accept Text."/>
+
+                            <create_mission cue="$MissionIntroCue" type="missiontype.fight" name="readtext.{86751343}.{1007}" description="readtext.{86751343}.{1008}" difficulty="level.trivial" faction="faction.teladi" />
+                            <create_ship name="$TestShip" zone="player.zone">
+                                <select faction="faction.xenon" size="class.ship_s"/>
+                                <owner exact="faction.xenon"/>
+                                <pilot actor="null"/>
+                                <safepos object="player.entity" min="30km" max="40km"/>
+                            </create_ship>
+
+                            <update_mission cue="$MissionIntroCue">
+                                <briefing>
+                                    <objective step="1" action="objective.destroy" object="$TestShip"/>
+                                </briefing>
+                            </update_mission>
+                            <set_objective cue="$MissionIntroCue" action="objective.destroy" object="$TestShip"/>
+
+                            <debug_text text="'Mission should be setup.'" />
+
                         </do_if>
                         <do_if value="event.param == 'reject'">
-                            <add_npc_line line="1005" hidechoices="true" comment="Reject Text."/>      
-                        </do_if>                        
+                            <add_npc_line line="1005" hidechoices="true" comment="Reject Text."/>
+                        </do_if>
                     </actions>
                 </cue>
             </cues>
